@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'IsYun';
+    src: url('/이서윤체.ttf') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+@theme inline {
+    --font-isyun: 'IsYun', 'sans-serif';
+}
+
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: cupcake --default;
+}
