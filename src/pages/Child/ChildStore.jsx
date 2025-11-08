@@ -1,4 +1,5 @@
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import { useState, useEffect } from 'react';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
