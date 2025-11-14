@@ -7,13 +7,15 @@ function ChildLayout() {
     const role = useAuthStore((state) => state.user.role)
     return (
         <>
-            {<ChildNavbar />}
-            <div className='bg-base-200 min-h-screen'>
-                {isLoggedIn && (role == 1) ? (
-                    <Outlet />
-                ) : (
-                    <Navigate to='/auth/login' replace />
-                )}
+            <div className='bg-base-200 h-screen flex flex-col'>
+                {<ChildNavbar />}
+                <div className='flex-1 min-h-0'>
+                    {isLoggedIn && (role == 1) ? (
+                        <Outlet />
+                    ) : (
+                        <Navigate to='/auth/login' replace />
+                    )}
+                </div>
             </div>
         </>
     )

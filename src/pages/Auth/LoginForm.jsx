@@ -7,19 +7,24 @@ function LoginForm() {
     const [userid, setUserid] = useState('');
     const [password, setPassword] = useState('');
 
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState([]);
+
+    const [loading, setLoading] = useState(false);
 
     const login = useAuthStore((state) => state.login);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
             await login(userid, password);
             alert('login succeed');
             navigate('/');
         } catch (err) {
             console.log(err);
-            setError('login failed');
+            setErrors(prev => [...prev, err.response.data.error.message]);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -33,14 +38,17 @@ function LoginForm() {
                 <label>비밀번호</label>
                 <input className="input mt-1" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            <button className="btn btn-neutral w-50" type="submit">submit</button>
+            <button className={`btn btn-neutral w-50 ${ loading ? 'btn-disabled' : ''}`} type="submit">{ loading ? (<span className="loading loading-infinity loading-md"></span>) : '로그인하기'}</button>
         </form>
-        {
-            error &&
-            <div role="alert" className="alert alert-error alert-outline mt-10 mx-10">
-                <span>{error}</span>
-            </div>
-        }
+        <div className="toast toast-bottom toast-end">
+            {
+                errors.map((error, idx) => (
+                    <div role="alert" className="alert alert-error alert-soft" key={idx}>
+                        <span>{error}</span>
+                    </div>
+                ))
+            }
+        </div>
     </div>
 }
 

@@ -1,12 +1,15 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import { useState, useEffect } from 'react';
+import useChildStore from '../../stores/useChildStore';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function ChildBank() {
     const [products, setProducts] = useState([]);
     const [types, setTypes] = useState({ enum: [] });
+
+    const checkPoint = useChildStore(state => state.checkPoint);
 
     useEffect(() => {
         const getProducts = async () => {
@@ -55,6 +58,7 @@ function ChildBank() {
                     }
                 }
             );
+            await checkPoint();
             setType('');
             setPeriod(1);
             setPoint(0);

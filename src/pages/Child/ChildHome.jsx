@@ -33,7 +33,7 @@ function ChildHome() {
     }
 
     return (
-        <div className='px-5 pt-5 overflow-y-auto h-[calc(100vh - 20)]'>
+        <div className='px-5 pt-5 overflow-y-auto h-full'>
             {notis.map(noti => {
                 const date = new Date(noti.createdAt);
                 const options = {

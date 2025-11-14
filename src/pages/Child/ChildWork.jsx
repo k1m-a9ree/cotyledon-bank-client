@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import useChildStore from '../../stores/useChildStore';
 import axios from 'axios'; 
 axios.defaults.withCredentials = true;
 
@@ -6,13 +7,13 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function ChildWork () {
     const [works, setWorks] = useState([]);
+    const checkPoint = useChildStore(state => state.checkPoint);
 
     useEffect(() => {
         const getWorks = async () => {
             try {
                 const res = await axios.get(`${SERVER_URL}/api/work/`);
                 setWorks(res.data.works);
-    
                 return true;
             } catch (err) {
                 console.log(err);
@@ -27,6 +28,7 @@ function ChildWork () {
         try {
             await axios.delete(`${SERVER_URL}/api/work/${workid}`);
             setWorks(prev => prev.filter(item => item.id != workid));
+            await checkPoint();
             return true;
         } catch (err) {
             console.log(err);

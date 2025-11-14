@@ -18,7 +18,7 @@ const useAuthStore = create(
             try {
                 const res = await axios.post(
                     `${SERVER_URL}/api/auth/login`,
-                    { user: { userid, password }}
+                    { user: { userid, password } }
                 );
 
                 const { user } = res.data;

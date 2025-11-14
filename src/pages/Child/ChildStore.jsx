@@ -1,11 +1,13 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
+import useChildStore from '../../stores/useChildStore';
 import { useState, useEffect } from 'react';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function ChildStore () {
     const [products, setProducts] = useState([]);
+    const checkPoint = useChildStore(state => state.checkPoint);
 
     useEffect(() => {
         const getProducts = async () => {
@@ -26,6 +28,7 @@ function ChildStore () {
         try {
             await axios.delete(`${SERVER_URL}/api/storeProduct/${productid}`);
             setProducts((prev) => prev.filter(item => item.id != productid));
+            await checkPoint();
             return true;
         } catch (err) { 
             console.log(err);
@@ -39,7 +42,7 @@ function ChildStore () {
         <div className="px-10 py-10 w-screen flex flex-nowrap flex-row overflow-x-auto">
             { products.map((product) => {
                 return (
-                    <div className="mx-3 card w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg" key={ product.id }>
+                    <div className="card mx-3 w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg" key={ product.id }>
                         <div className="card-body flex flex-col justify-between">
                             <h2 className="text-4xl">{ product.name }</h2>
                             <h3 className="text-xl">가격: { product.price }포인트</h3>

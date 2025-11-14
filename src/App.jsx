@@ -10,6 +10,7 @@ import ChildHome from './pages/Child/ChildHome';
 import ChildWork from './pages/Child/ChildWork';
 import ChildBank from './pages/Child/ChildBank';
 import ChildStore from './pages/Child/ChildStore';
+import ChildStage from './pages/Child/ChildStage';
 
 import ParentLayout from './pages/parent/ParentLayout';
 import ParentHome from './pages/parent/ParentHome';
@@ -32,6 +33,7 @@ function App() {
                     <Route path='work' element={<ChildWork/>}></Route>
                     <Route path='bank' element={<ChildBank/>}></Route>
                     <Route path='store' element={<ChildStore/>}></Route>
+                    <Route path='stage' element={<ChildStage/>}></Route>
                 </Route>
 
                 <Route path='/parent' element={<ParentLayout />}>
