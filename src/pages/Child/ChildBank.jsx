@@ -2,6 +2,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 import { useState, useEffect } from 'react';
 import useChildStore from '../../stores/useChildStore';
+import useToastStore from '../../stores/useToastStore';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -37,9 +38,11 @@ function ChildBank() {
         getTypes();
     }, []);
 
-    const [type, setType] = useState('');
+    const [type, setType] = useState(types.enum[1]);
     const [period, setPeriod] = useState(1);
     const [point, setPoint] = useState(0);
+
+    const showToast = useToastStore(state => state.showToast);
 
     const handleSelectChange = (e) => {
         setType(e.target.value);
@@ -62,11 +65,11 @@ function ChildBank() {
             setType('');
             setPeriod(1);
             setPoint(0);
-            alert('post succeed');
+            showToast(`${ types[res.data.product.type].korean }이 추가되었습니다!`, 'success');
             setProducts(prev => [res.data.product, ...prev]);
         } catch (err) {
             console.log(err);
-            setError('post failed');
+            showToast(err.response.data.error.message, 'error');
         }
     }
 

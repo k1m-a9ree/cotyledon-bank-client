@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import useAuthStore from "../../stores/useAuthStore";
+import useToastStore from '../../stores/useToastStore';
 
 function LoginForm() {
     const navigate = useNavigate();
     const [userid, setUserid] = useState('');
     const [password, setPassword] = useState('');
 
-    const [errors, setErrors] = useState([]);
+    const showToast = useToastStore(state => state.showToast);
 
     const [loading, setLoading] = useState(false);
 
@@ -18,11 +19,11 @@ function LoginForm() {
         try {
             setLoading(true);
             await login(userid, password);
-            alert('login succeed');
+            showToast('로그인이 완료되었습니다!', 'success');
             navigate('/');
         } catch (err) {
             console.log(err);
-            setErrors(prev => [...prev, err.response.data.error.message]);
+            showToast(err.response.data.error.message, 'error');
         } finally {
             setLoading(false);
         }
@@ -40,15 +41,6 @@ function LoginForm() {
             </div>
             <button className={`btn btn-neutral w-50 ${ loading ? 'btn-disabled' : ''}`} type="submit">{ loading ? (<span className="loading loading-infinity loading-md"></span>) : '로그인하기'}</button>
         </form>
-        <div className="toast toast-bottom toast-end">
-            {
-                errors.map((error, idx) => (
-                    <div role="alert" className="alert alert-error alert-soft" key={idx}>
-                        <span>{error}</span>
-                    </div>
-                ))
-            }
-        </div>
     </div>
 }
 

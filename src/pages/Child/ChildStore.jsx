@@ -39,7 +39,7 @@ function ChildStore () {
 
 
     return (
-        <div className="px-10 py-10 w-screen flex flex-nowrap flex-row overflow-x-auto">
+        <div className="px-10 py-10 w-full flex flex-nowrap flex-row overflow-x-auto">
             { products.map((product) => {
                 return (
                     <div className="card mx-3 w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg" key={ product.id }>

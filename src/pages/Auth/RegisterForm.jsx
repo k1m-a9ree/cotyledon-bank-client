@@ -5,6 +5,8 @@ axios.defaults.withCredentials = true;
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
+import useToastStore from '../../stores/useToastStore';
+
 function RegisterForm() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
@@ -13,7 +15,7 @@ function RegisterForm() {
     const [housename, setHousename] = useState('');
     const [role, setRole] = useState(false);
 
-    const [errors, setErrors] = useState([]);
+    const showToast = useToastStore(state => state.showToast);
 
     const [loading, setLoading] = useState(false);
 
@@ -33,11 +35,11 @@ function RegisterForm() {
                     }
                 }
             );
-            alert('register succeed');
+            showToast('성공적으로 가입되었습니다!', 'success');
             navigate('/');
         } catch (err) {
             console.log(err);
-            setErrors(prev => [...prev, err.response.data.error.message]);
+            showToast(err.response.data.error.message, 'error');
         } finally {
             setLoading(false);
         }
@@ -71,15 +73,6 @@ function RegisterForm() {
 
                 <button className={`btn btn-neutral w-50 ${ loading ? 'btn-disabled' : ''}`} type="submit">{ loading ? (<span className="loading loading-infinity loading-md"></span>) : '가입하기'}</button>
             </form>
-            <div className="toast toast-bottom toast-end">
-                {
-                    errors.map((error, idx) => (
-                        <div role="alert" className="alert alert-error alert-soft" key={idx}>
-                            <span>{error}</span>
-                        </div>
-                    ))
-                }
-            </div>
         </div>
     )
 }
