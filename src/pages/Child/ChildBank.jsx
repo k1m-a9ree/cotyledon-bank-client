@@ -9,7 +9,11 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 function ChildBank() {
     const [products, setProducts] = useState([]);
     const [types, setTypes] = useState({ enum: [] });
+    const [type, setType] = useState('');
+    const [period, setPeriod] = useState(1);
+    const [point, setPoint] = useState(0);
 
+    const showToast = useToastStore(state => state.showToast);
     const checkPoint = useChildStore(state => state.checkPoint);
 
     useEffect(() => {
@@ -38,11 +42,6 @@ function ChildBank() {
         getTypes();
     }, []);
 
-    const [type, setType] = useState(types.enum[1]);
-    const [period, setPeriod] = useState(1);
-    const [point, setPoint] = useState(0);
-
-    const showToast = useToastStore(state => state.showToast);
 
     const handleSelectChange = (e) => {
         setType(e.target.value);
@@ -65,7 +64,7 @@ function ChildBank() {
             setType('');
             setPeriod(1);
             setPoint(0);
-            showToast(`${ types[res.data.product.type].korean }이 추가되었습니다!`, 'success');
+            showToast(`${ types[res.data.product.type].korean } 가입 성공!`, 'success');
             setProducts(prev => [res.data.product, ...prev]);
         } catch (err) {
             console.log(err);
@@ -99,7 +98,7 @@ function ChildBank() {
                     <form onSubmit={handleSubmit} className="h-80 flex flex-col justify-between items-start">
                         <label className="label">금융상품</label>
                         <select value={type} className="select" onChange={handleSelectChange}>
-                            <option disabled={true} >Pick Financial Product Type</option>
+                            <option disabled={true} value='' >금융 상품을 선택하세요!</option>
                             {types.enum.map((item) => {
                                 return <option value={item} key={item}>{types[item].korean}</option>
                             })}
@@ -112,7 +111,7 @@ function ChildBank() {
                             <label className="label">넣어둘 돈</label>
                             <input type="number" className='input' value={point} onChange={(e) => setPoint(e.target.value)} />
                         </div>
-                        <button className="btn btn-success" type="submit">추가하기</button>
+                        <button className={`${type==='' ? 'btn btn-disabled' : 'btn btn-success'}`} type="submit">추가하기</button>
                     </form>
                 </div>
                 <form method="dialog" className="modal-backdrop">
@@ -157,7 +156,7 @@ function ProductCard({ product, types, deleteProduct, setProducts }) {
             return false;
         }
     }
-    return <div className="mx-3 card w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg" key={product.id}>
+    return <div className="mx-3 card w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-xl" key={product.id}>
         <div className="card-body flex flex-col justify-between items-center">
             <h2 className="text-2xl">{types[product.type].korean}</h2>
             {types[product.type].canDeposit ? (

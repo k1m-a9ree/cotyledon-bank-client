@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import useChildStore from '../../stores/useChildStore';
+import useToastStore from '../../stores/useToastStore';
 import axios from 'axios'; 
 axios.defaults.withCredentials = true;
 
@@ -8,6 +9,8 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 function ChildWork () {
     const [works, setWorks] = useState([]);
     const checkPoint = useChildStore(state => state.checkPoint);
+
+    const showToast = useToastStore(state => state.showToast);
 
     useEffect(() => {
         const getWorks = async () => {
@@ -26,12 +29,16 @@ function ChildWork () {
 
     const working = async (workid) => {
         try {
-            await axios.delete(`${SERVER_URL}/api/work/${workid}`);
+            const res = await axios.delete(`${SERVER_URL}/api/work/${workid}`);
             setWorks(prev => prev.filter(item => item.id != workid));
+            showToast(`${res.data.work.name} 완료!`, 'success');
+            console.log('okay1')
             await checkPoint();
+            console.log('okay2')
             return true;
         } catch (err) {
             console.log(err);
+            showToast(err.response.data.error.message, 'error');
             return false;
         }
     }
@@ -42,7 +49,7 @@ function ChildWork () {
         <div className="px-10 py-10 w-full flex flex-nowrap flex-row overflow-x-auto">
             { works.map((work) => {
                 return (
-                    <div className="mx-3 card w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg" key={ work.id }>
+                    <div className="mx-3 card w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-xl" key={ work.id }>
                         <div className="card-body">
                             <h2 className="text-3xl">{ work.name }</h2>
                             <h3 className="text-xl">일당: { work.salary }</h3>

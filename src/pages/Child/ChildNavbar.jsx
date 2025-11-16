@@ -43,7 +43,6 @@ export default function ChildNavbar() {
             try {
                 setLoading(true);
                 await checkPoint();
-                console.log(point);
             } catch (error) {
                 console.log(error);
             } finally {

@@ -2,10 +2,11 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 import useChildStore from '../../stores/useChildStore';
 import { useState, useEffect } from 'react';
+import useToastStore from '../../stores/useToastStore';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-function ChildStore () {
+function ChildStore() {
     const [products, setProducts] = useState([]);
     const checkPoint = useChildStore(state => state.checkPoint);
 
@@ -14,7 +15,7 @@ function ChildStore () {
             try {
                 const res = await axios.get(`${SERVER_URL}/api/storeProduct/`);
                 setProducts(res.data.storeProducts);
-    
+
                 return true;
             } catch (err) {
                 console.log(err);
@@ -24,33 +25,35 @@ function ChildStore () {
         getProducts();
     }, []);
 
+    const showToast = useToastStore(state => state.showToast);
+
     const purchase = async (productid) => {
         try {
-            await axios.delete(`${SERVER_URL}/api/storeProduct/${productid}`);
+            const res = await axios.delete(`${SERVER_URL}/api/storeProduct/${productid}`);
             setProducts((prev) => prev.filter(item => item.id != productid));
             await checkPoint();
-            return true;
-        } catch (err) { 
+            showToast(`${res.data.product.name} 구매 완료!`, 'success');
+        } catch (err) {
             console.log(err);
-            return false;
-        } 
+            showToast(err.response.data.error.message, 'error');
+        }
     }
 
 
 
     return (
         <div className="px-10 py-10 w-full flex flex-nowrap flex-row overflow-x-auto">
-            { products.map((product) => {
+            {products.map((product) => {
                 return (
-                    <div className="card mx-3 w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg" key={ product.id }>
+                    <div className="card mx-3 w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-xl" key={product.id}>
                         <div className="card-body flex flex-col justify-between">
-                            <h2 className="text-4xl">{ product.name }</h2>
-                            <h3 className="text-xl">가격: { product.price }포인트</h3>
+                            <h2 className="text-4xl">{product.name}</h2>
+                            <h3 className="text-xl">가격: {product.price}포인트</h3>
                             <button className="btn btn-primary" onClick={(e) => purchase(product.id)}>구매</button>
                         </div>
                     </div>
                 )
-            }) }
+            })}
         </div>
     )
 }

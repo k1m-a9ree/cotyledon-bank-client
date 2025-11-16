@@ -9,9 +9,27 @@ function Toast() {
                 toasts.map((toast) => {
                     const { id, message, type } = toast;
                     return (
-                        <div role={ type } className={ `alert alert-${ type } alert-soft` } key={ id }>
-                            <span>{ message }</span>
-                        </div>
+                        type == 'success' ? (
+                            <div role={type} className={`alert alert-success alert-soft`} key={id}>
+                                <span>{message}</span>
+                            </div>
+                        ) : type == 'error' ? (
+                            <div role={type} className={`alert alert-error alert-soft`} key={id}>
+                                <span>{message}</span>
+                            </div>
+                        ) : type == 'warning' ? (
+                            <div role={type} className={`alert alert-warning alert-soft`} key={id}>
+                                <span>{message}</span>
+                            </div>
+                        ) : type == 'info' ? (
+                            <div role={type} className={`alert alert-info alert-soft`} key={id}>
+                                <span>{message}</span>
+                            </div>
+                        ) : (
+                            <div role={type} className={`alert alert-soft`} key={id}>
+                                <span>{message}</span>
+                            </div>
+                        )
                     )
                 })
             }

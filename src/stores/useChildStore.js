@@ -7,7 +7,8 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 // 초기 상태
 const initialState = {
-    point: 0
+    point: 0,
+    stage: 0
 };
 
 const useChildStore = create(
@@ -16,9 +17,24 @@ const useChildStore = create(
         checkPoint: async () => {
             try {
                 const res = await axios.get(`${SERVER_URL}/api/child/point`);
-                set({
+                set(prev => ({
+                    ...prev,
                     point: res.data.point
                 })
+                )
+            } catch (err) {
+                console.log(err);
+                throw err;
+            }
+        },
+        checkStage: async () => {
+            try {
+                const res = await axios.get(`${SERVER_URL}/api/child/stage`);
+                set(prev => ({
+                    ...prev,
+                    stage: res.data.stage
+                })
+                )
             } catch (err) {
                 console.log(err);
                 throw err;
