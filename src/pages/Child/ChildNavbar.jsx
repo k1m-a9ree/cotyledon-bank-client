@@ -17,7 +17,9 @@ export default function ChildNavbar() {
 
                 return true;
             } catch (err) {
-                console.log(err);
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
                 return false;
             }
         }
@@ -30,7 +32,9 @@ export default function ChildNavbar() {
             await axios.delete(`${SERVER_URL}/api/notification/${notiid}`);
             setNotis(prev => prev.filter(item => item.id != notiid));
         } catch (err) {
-            console.log(err);
+            if (import.meta.env.VITE_ENV !== 'production') {
+                console.log(err);
+            }
         }
     }
 
@@ -43,8 +47,10 @@ export default function ChildNavbar() {
             try {
                 setLoading(true);
                 await checkPoint();
-            } catch (error) {
-                console.log(error);
+            } catch (err) {
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
             } finally {
                 setLoading(false);
             }
@@ -59,7 +65,7 @@ export default function ChildNavbar() {
 
 
 
-                <button className="btn mr-5 btn-square btn-ghost" onClick={() => document.getElementById('notification_modal').showModal()}>
+                <button className="btn mr-5 btn-square btn-secondary" onClick={() => document.getElementById('notification_modal').showModal()}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="size-6"><path d="M18,13.18V10a6,6,0,0,0-5-5.91V3a1,1,0,0,0-2,0V4.09A6,6,0,0,0,6,10v3.18A3,3,0,0,0,4,16v2a1,1,0,0,0,1,1H8.14a4,4,0,0,0,7.72,0H19a1,1,0,0,0,1-1V16A3,3,0,0,0,18,13.18ZM8,10a4,4,0,0,1,8,0v3H8Zm4,10a2,2,0,0,1-1.72-1h3.44A2,2,0,0,1,12,20Zm6-3H6V16a1,1,0,0,1,1-1H17a1,1,0,0,1,1,1Z"></path></svg>
                 </button>
                 <dialog id="notification_modal" className="modal">

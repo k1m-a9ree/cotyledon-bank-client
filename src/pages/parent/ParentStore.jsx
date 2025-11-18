@@ -15,7 +15,9 @@ function ParentStore() {
 
                 return true;
             } catch (err) {
-                console.log(err);
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
                 return false;
             }
         }
@@ -28,7 +30,9 @@ function ParentStore() {
             setProducts((prev) => prev.filter(item => item.id != productid));
             return true;
         } catch (err) {
-            console.log(err);
+            if (import.meta.env.VITE_ENV !== 'production') {
+                console.log(err);
+            }
             return false;
         }
     }
@@ -53,7 +57,9 @@ function ParentStore() {
             alert('post succeed');
             setProducts(prev => [res.data.product, ...prev]);
         } catch (err) {
-            console.log(err);
+            if (import.meta.env.VITE_ENV !== 'production') {
+                console.log(err);
+            }
             setError('post failed');
         }
     }

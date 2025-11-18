@@ -7,10 +7,9 @@ import RegisterForm from './pages/Auth/RegisterForm';
 
 import ChildLayout from './pages/Child/ChildLayout';
 import ChildHome from './pages/Child/ChildHome';
-import ChildWork from './pages/Child/ChildWork';
 import ChildBank from './pages/Child/ChildBank';
-import ChildStore from './pages/Child/ChildStore';
 import ChildStage from './pages/Child/ChildStage';
+import ChildQuiz from './pages/Child/ChildQuiz';
 
 import ParentLayout from './pages/parent/ParentLayout';
 import ParentHome from './pages/parent/ParentHome';
@@ -32,10 +31,9 @@ function App() {
 
                     <Route path='/child' element={<ChildLayout />}>
                         <Route path='home' element={<ChildHome />}></Route>
-                        <Route path='work' element={<ChildWork />}></Route>
                         <Route path='bank' element={<ChildBank />}></Route>
-                        <Route path='store' element={<ChildStore />}></Route>
                         <Route path='stage' element={<ChildStage />}></Route>
+                        <Route path='quiz/:stage' element={<ChildQuiz />}></Route>
                     </Route>
 
                     <Route path='/parent' element={<ParentLayout />}>

@@ -23,7 +23,9 @@ const useChildStore = create(
                 })
                 )
             } catch (err) {
-                console.log(err);
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
                 throw err;
             }
         },
@@ -36,7 +38,9 @@ const useChildStore = create(
                 })
                 )
             } catch (err) {
-                console.log(err);
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
                 throw err;
             }
         }

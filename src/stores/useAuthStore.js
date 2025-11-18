@@ -22,23 +22,27 @@ const useAuthStore = create(
                 );
 
                 const { user } = res.data;
-
+                
                 set({
                     user: user,
                     isLoggedIn: true
                 });
 
-            } catch (error) {
-                console.log(error);
-                throw error;
+            } catch (err) {
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
+                throw err;
             }
         },
         logout: async () => {
             try {
                 await axios.post(`${SERVER_URL}/api/auth/logout`);
-            } catch (error) {
-                console.log(error);
-                throw error;
+            } catch (err) {
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
+                throw err;
             } finally {
                 set(initialState);
             }

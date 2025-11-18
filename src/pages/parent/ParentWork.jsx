@@ -15,7 +15,9 @@ function ParentWork() {
 
                 return true;
             } catch (err) {
-                console.log(err);
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
                 return false;
             }
         }
@@ -29,7 +31,9 @@ function ParentWork() {
             setWorks(prev => prev.filter(item => item.id != workid));
             return true;
         } catch (err) {
-            console.log(err);
+            if (import.meta.env.VITE_ENV !== 'production') {
+                console.log(err);
+            }
             return false;
         }
     }
@@ -57,7 +61,9 @@ function ParentWork() {
             alert('post succeed');
             setWorks(prev => [res.data.work, ...prev]);
         } catch (err) {
-            console.log(err);
+            if (import.meta.env.VITE_ENV !== 'production') {
+                console.log(err);
+            }
             setError('register failed');
         }
     }

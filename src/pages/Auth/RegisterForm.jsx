@@ -38,7 +38,6 @@ function RegisterForm() {
             showToast('성공적으로 가입되었습니다!', 'success');
             navigate('/');
         } catch (err) {
-            console.log(err);
             showToast(err.response.data.error.message, 'error');
         } finally {
             setLoading(false);

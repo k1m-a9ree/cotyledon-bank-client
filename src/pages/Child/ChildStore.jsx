@@ -18,7 +18,9 @@ function ChildStore() {
 
                 return true;
             } catch (err) {
-                console.log(err);
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
                 return false;
             }
         }
@@ -34,7 +36,9 @@ function ChildStore() {
             await checkPoint();
             showToast(`${res.data.product.name} 구매 완료!`, 'success');
         } catch (err) {
-            console.log(err);
+            if (import.meta.env.VITE_ENV !== 'production') {
+                console.log(err);
+            }
             showToast(err.response.data.error.message, 'error');
         }
     }
@@ -42,14 +46,14 @@ function ChildStore() {
 
 
     return (
-        <div className="px-10 py-10 w-full flex flex-nowrap flex-row overflow-x-auto">
+        <div className="p-5 w-full flex flex-nowrap flex-row overflow-x-auto">
             {products.map((product) => {
                 return (
-                    <div className="card mx-3 w-70 h-100 flex-shrink-0 bg-base-100 shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-xl" key={product.id}>
+                    <div className="card mx-3 w-70 h-100 flex-shrink-0 border border-base-300 border-2 bg-base-100 shadow-lg transition-all duration-300 hover:scale-103 hover:-translate-y-3 hover:shadow-xl" key={product.id}>
                         <div className="card-body flex flex-col justify-between">
                             <h2 className="text-4xl">{product.name}</h2>
                             <h3 className="text-xl">가격: {product.price}포인트</h3>
-                            <button className="btn btn-primary" onClick={(e) => purchase(product.id)}>구매</button>
+                            <button className="btn btn-info" onClick={(e) => purchase(product.id)}>구매</button>
                         </div>
                     </div>
                 )

@@ -22,7 +22,6 @@ function LoginForm() {
             showToast('로그인이 완료되었습니다!', 'success');
             navigate('/');
         } catch (err) {
-            console.log(err);
             showToast(err.response.data.error.message, 'error');
         } finally {
             setLoading(false);

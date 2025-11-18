@@ -15,7 +15,9 @@ function ParentHome () {
 
                 return true;
             } catch (err) {
-                console.log(err);
+                if (import.meta.env.VITE_ENV !== 'production') {
+                    console.log(err);
+                }
                 return false
             }
         }
