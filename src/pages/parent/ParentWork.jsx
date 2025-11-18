@@ -41,6 +41,7 @@ function ParentWork() {
     const [name, setName] = useState('');
     const [todo, setTodo] = useState('');
     const [salary, setSalary] = useState(0);
+    const [password, setPassword] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,7 +52,8 @@ function ParentWork() {
                     work: {
                         name,
                         todo,
-                        salary
+                        salary,
+                        password
                     }
                 }
             );
@@ -79,6 +81,7 @@ function ParentWork() {
                             <div className="card-body flex flex-col justify-between items-center">
                                 <h2 className="text-2xl">{work.name}</h2>
                                 <h3 className="text-xl">일당: {work.salary}</h3>
+                                <h4 className='text-xl'>비밀번호: {work.password}</h4>
                                 <span className='text-lg'>할 일: {work.todo}</span>
                                 <button className="btn btn-soft btn-error w-50" onClick={(e) => deleteWork(work.id)}>삭제하기</button>
                             </div>
@@ -89,15 +92,17 @@ function ParentWork() {
             <button className="btn ml-10 btn-dash btn-info" onClick={() => document.getElementById('add_work_modal').showModal()}>추가하기</button>
             <dialog id="add_work_modal" className="modal">
                 <div className="modal-box w-100 h-100">
-                    <form onSubmit={handleSubmit} className='h-80 flex flex-col justify-between items-start'>
+                    <form onSubmit={handleSubmit} className='flex flex-col justify-between items-start'>
                         <label className='label'>이름</label>
                         <input className="input" type="text" value={name} onChange={(e) => setName(e.target.value)} />
                         <label className='label'>할 일</label>
                         <input className="input" type="text" value={todo} onChange={(e) => setTodo(e.target.value)} />
                         <label className='label'>일당</label>
                         <input className="input" type="number" value={salary} onChange={(e) => setSalary(e.target.value)} />
+                        <label className='label'>비밀번호</label>
+                        <input className="input" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                        <button className="btn btn-success" type="submit">제출하기</button>
+                        <button className="btn btn-success mt-5" type="submit">제출하기</button>
                     </form>
                 </div>
                 <form method="dialog" className="modal-backdrop">
