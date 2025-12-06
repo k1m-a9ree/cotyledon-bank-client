@@ -133,6 +133,8 @@ function ProductCard({ product, types, deleteProduct, setProducts }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const newPoint = Number(point);
+
         try {
             if (point < product.point) {
                 showToast('출금은 해지하기 기능을 사용해주세요!', 'warning');
@@ -142,14 +144,15 @@ function ProductCard({ product, types, deleteProduct, setProducts }) {
                     `${SERVER_URL}/api/financialProduct/${product.id}`,
                     {
                         financialProduct: {
-                            point
+                            point: newPoint
                         }
                     }
                 )
 
+                const diff = newPoint - product.point;
                 setProducts(prev => prev.map(item => {
                     if (item.id == product.id) {
-                        return { ...item, point: point }
+                        return { ...item, point: newPoint, principal: item.principal + diff }
                     } else return item
                 }))
 
