@@ -45,13 +45,18 @@ function ChildStage() {
     }
 
     return (
-        <div className="h-full p-[7vh] grid grid-cols-3 gap-[5vh]">
+        <div className="h-full p-[7vh] grid grid-cols-4 gap-[5vh]">
+            <div onClick={(e) => clickStage(0)} className="card bg-base-100 bg-base-100 shadow-lg border border-base-300 border-2 transition-all duration-300 hover:scale-103 hover:-translate-y-3 hover:shadow-xl">
+                <div className="card-body flex flex-col justify-center items-center cursor-pointer">
+                    <h1 className="text-2xl">스테이지: 0, 기본 용어</h1>
+                </div>
+            </div>
             {
                 config.enum.map(type => {
                     const stage = config[type].stage;
                     return (
                         <div onClick={(e) => clickStage(stage)} key={stage} className="card bg-base-100 bg-base-100 shadow-lg border border-base-300 border-2 transition-all duration-300 hover:scale-103 hover:-translate-y-3 hover:shadow-xl">
-                            <div className="card-body flex flex-col justify-center items-center">
+                            <div className="card-body flex flex-col justify-center items-center cursor-pointer">
                                 <h1 className="text-2xl">스테이지: {stage}, {config[type].korean}</h1>
                                 <div className="flex flex-wrap flex-row justify-center items-center mt-5">
                                     <span className="badge m-1 badge-primary">{config[type].rootType}</span>
