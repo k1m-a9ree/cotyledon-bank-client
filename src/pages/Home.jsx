@@ -19,7 +19,8 @@ function Home() {
             {!isLoggedIn ? (
                 <div>
                     <Link to='/auth/login' className='btn btn-lg btn-soft btn-accent'>로그인 하기</Link>
-                    <Link to='/auth/register' className='btn btn-lg btn-soft btn-accent ml-5'>가입 하기</Link>
+                    <Link to='/auth/register' className='btn btn-lg btn-soft btn-accent ml-3'>가입 하기</Link>
+                    <a href="https://github.com/k1m-a9ree/cotyledon-bank-client/blob/main/manual.md" className='btn btn-lg btn-soft btn-accent ml-3'>설명서</a>
                 </div>
             ) : user.role == 0 ? (
                 <div>
